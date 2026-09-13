@@ -1,51 +1,51 @@
-# HealthTech Business Analysis Case Study: Patient Online Booking Integration
+# Опис кейсу (Business Analysis): Інтеграція онлайн-запису пацієнтів у МІС
 
-## 📌 Context & Objective
-**Goal:** Enable patients to book medical appointments online via the website directly into the Healthcare Information System (MIS) to reduce call-center workload, prevent double-booking, and improve patient experience.
-
----
-
-## 📐 Business Process Specification (BPMN Flow)
-
-### Process Steps:
-1. **Patient** selects Specialty, Doctor, Location, and Time Slot on the website.
-2. **Website** calls MIS API to verify slot availability.
-3. **Patient** submits personal details (First Name, Last Name, Phone Number, DOB).
-4. **MIS** validates patient data:
-   - Matches Phone + DOB to prevent duplicate patient profiles.
-   - Links booking to existing profile OR creates a new draft profile.
-5. **MIS** updates slot status to "Booked" and sends confirmation.
-6. **Patient** receives automated confirmation message (Viber/SMS via TurboSMS API).
+## 📌 Контекст та мета проєкту
+**Мета:** Забезпечити можливість пацієнтам самостійно записуватися на прийом через сайт клініки напряму в медичну інформаційну систему (МІС). Це зменшує навантаження на контакт-центр, виключає дублювання записів (double-booking) та покращує досвід пацієнта (CX).
 
 ---
 
-## 📝 User Stories & Acceptance Criteria (Jira / Backlog)
+## 📐 Специфікація бізнес-процесу (BPMN Flow)
 
-### **US-01: View Available Slots for Online Booking**
-**As a** Patient,  
-**I want to** see real-time doctor availability on the website,  
-**So that** I can select a convenient date and time for my appointment.
-
-#### **Acceptance Criteria (AC):**
-* **AC 1:** The system displays available time slots based on the doctor's active schedule in the MIS.
-* **AC 2:** Past slots and already booked slots are hidden or disabled.
-* **AC 3:** Time slots update automatically upon page refresh.
-
----
-
-### **US-02: Patient Online Appointment Booking**
-**As a** Patient,  
-**I want to** book an appointment by filling in my basic contact info,  
-**So that** my appointment is registered instantly without calling the reception.
-
-#### **Acceptance Criteria (AC):**
-* **AC 1:** Mandatory fields: First Name, Last Name, Phone Number (+380 format), Date of Birth.
-* **AC 2:** Upon submission, the MIS checks if the slot is still available.
-* **AC 3:** If available, status `201 Created` is returned, slot status changes to "Booked" in MIS schedule, and appointment appears on the doctor's calendar.
-* **AC 4 (Error Handling):** If slot was taken concurrently by another user, return error `409 Conflict`: *"The selected slot is no longer available. Please choose another time."*
+### Кроки процесу:
+1. **Пацієнт** обирає напрямок, лікаря, локацію та вільний час на сайті.
+2. **Сайт** через API перевіряє доступність обраного слота в МІС.
+3. **Пацієнт** вказує персональні дані (Ім'я, Прізвище, Номер телефону, Дата народження).
+4. **МІС** валідує дані пацієнта:
+   - Перевіряє збіг за номером телефону та датою народження для запобігання дублікатам.
+   - Підв'язує запис до існуючої картки АБО створює чернетку нового профілю.
+5. **МІС** змінює статус слота на «Заброньовано» та підтверджує запис.
+6. **Пацієнт** отримує автоматичне сповіщення (Viber/SMS через TurboSMS API).
 
 ---
 
-## 🖥️ Low-Fidelity UI Wireframe (Wireframe Concept)
+## 📝 User Stories та Kритерії прийомки (Acceptance Criteria для Jira)
 
-### **Appointment Confirmation Form (Website)**
+### **US-01: Перегляд доступних слотів для онлайн-запису**
+**Як** Пацієнт,  
+**Я хочу** бачити актуальний розклад лікаря на сайті в режимі реального часу,  
+**Щоб** обрати зручний день та час для візиту.
+
+#### **Критерії прийомки (AC):**
+* **AC 1:** Система відображає вільні часові слоти на основі активного графіка лікаря в МІС.
+* **AC 2:** Минулі слоти та вже заброньований час є недоступними для вибору.
+* **AC 3:** Оновлення слотів відбувається автоматично при перезавантаженні сторінки або зміні дати.
+
+---
+
+### **US-02: Оформлення онлайн-запису пацієнтом**
+**Як** Пацієнт,  
+**Я хочу** заповнити базову контактну форму на сайті,  
+**Щоб** мій запис одразу зафіксувався в системі без дзвінка в реєстратуру.
+
+#### **Критерії прийомки (AC):**
+* **AC 1:** Обов'язкові для заповнення поля: Ім'я, Прізвище, Номер телефону (формат +380), Дата народження.
+* **AC 2:** При відправці форми МІС повторно перевіряє доступність слота.
+* **AC 3:** У разі успіху МІС повертає статус `201 Created`, змінює статус слота на «Заброньовано» та додає прийом у календар лікаря.
+* **AC 4 (Обробка помилок):** Якщо слот був зайнятий іншим користувачем паралельно, система повертає помилку `409 Conflict`: *"Обраний час вже зайнятий. Будь ласка, оберіть інший слот."*
+
+---
+
+## 🖥️ UX-прототип інтерфейсу (Low-Fidelity Wireframe)
+
+### **Форма підтвердження запису на сайті**
